@@ -1,47 +1,44 @@
 import { useState } from "react";
 import DateRangePicker from "./DateRangePicker";
 import ButtonPrimary from "./ButtonPrimary";
+import TimePicker from "./TimePicker";
+import DaysPicker from "./DaysPicker";
 
-interface popUpState {
-  popUpWindow: (data: boolean) => void;
+interface periodObject {
+  periodDetails: (data: object) => void;
 }
 
-function PeriodAdder({ popUpWindow }: popUpState) {
-  const [isClicked, setisClicked] = useState(true);
-  const [days, setdays] = useState({
-    Sunday: false,
-    Monday: false,
-    Tuesday: false,
-    Wednesday: false,
-    Thursday: false,
-    Friday: false,
-    Saturday: false,
+function PeriodAdder({ popUpWindow }: any, { periodDetails }: periodObject) {
+  const [details, setDetails] = useState({
+    Name: "",
+    Start: "",
+    End: "",
+    Repeat: [],
+    From: "",
+    Color: "",
   });
-  const [selectedColor, setSelectedColor] = useState("blushPearl");
 
-  popUpWindow(isClicked);
+  const [selectedColor, setSelectedColor] = useState("blushPearl");
 
   const handleColorChange = (e: any) => {
     setSelectedColor(e.target.value);
   };
 
-  const handleCheckboxChange = (event: any) => {
-    const { name, checked } = event.target;
-    setdays({ ...days, [name]: checked });
+  const addPeriod = () => {
+    // periodDetails(details);
+    popUpWindow();
   };
 
   return (
     <>
-      <section className="bg-black/20 grid place-content-center fixed top-0 w-screen min-h-screen">
-        <div className="bg-white w-[40vw] rounded-3xl py-8 px-10">
+      <section className="bg-black/20 grid justify-center fixed top-0 w-screen min-h-screen">
+        <div className="bg-white w-[40vw] h-fit rounded-3xl mt-20 py-8 px-10">
           <div className="flex justify-between">
             <h2>Add Period</h2>
             {/* Close Button */}
             <button
               onClick={(e) => {
-                e.preventDefault();
-                setisClicked(false);
-                popUpWindow(isClicked);
+                popUpWindow();
               }}
               className=" cursor-pointer"
             >
@@ -71,6 +68,10 @@ function PeriodAdder({ popUpWindow }: popUpState) {
               <h4>Period</h4>
               <input
                 type="text"
+                value={details.Name}
+                onChange={(e) =>
+                  setDetails({ ...details, Name: e.target.value })
+                }
                 className="w-full mt-2 py-4 px-6 border border-grey rounded-xl placeholder:font-light"
                 placeholder="Enter Period Name"
               />
@@ -78,129 +79,38 @@ function PeriodAdder({ popUpWindow }: popUpState) {
             <section className="grid grid-cols-2 gap-4">
               <label>
                 <h4>Start</h4>
-                <input
-                  type="time"
-                  defaultValue="11:00"
-                  className="w-full mt-2 py-4 px-6 border border-grey rounded-xl placeholder:font-light"
-                  placeholder="Enter Period Name"
+                <TimePicker
+                  selectedTime={(time: string) =>
+                    setDetails({ ...details, Start: time })
+                  }
                 />
               </label>
               <label>
                 <h4>End</h4>
-                <input
-                  type="time"
-                  defaultValue="12:00"
-                  className="w-full mt-2 py-4 px-6 border border-grey rounded-xl placeholder:font-light"
-                  placeholder="Enter Period Name"
+                <TimePicker
+                  selectedTime={(time: string) =>
+                    setDetails({ ...details, End: time })
+                  }
                 />
               </label>
             </section>
             <section>
               <h4>Repeat on days</h4>
               <div className="grid grid-flow-col-dense gap-4 w-fit mt-2">
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Sunday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  S
-                  <input
-                    type="checkbox"
-                    name="Sunday"
-                    checked={days.Sunday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Monday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  M
-                  <input
-                    type="checkbox"
-                    name="Monday"
-                    checked={days.Monday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Tuesday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  T
-                  <input
-                    type="checkbox"
-                    name="Tuesday"
-                    checked={days.Tuesday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Wednesday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  W
-                  <input
-                    type="checkbox"
-                    name="Wednesday"
-                    checked={days.Wednesday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Thursday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  T
-                  <input
-                    type="checkbox"
-                    name="Thursday"
-                    checked={days.Thursday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Friday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  F
-                  <input
-                    type="checkbox"
-                    name="Friday"
-                    checked={days.Friday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
-                <label
-                  className={`grid place-content-center w-10 h-10 rounded-full cursor-pointer ${
-                    days.Saturday ? "bg-primary text-white" : "bg-light"
-                  }`}
-                >
-                  S
-                  <input
-                    type="checkbox"
-                    name="Saturday"
-                    checked={days.Saturday}
-                    onChange={handleCheckboxChange}
-                    className="hidden"
-                  />
-                </label>
+                <DaysPicker
+                  selectedDays={(days: any) =>
+                    setDetails({ ...details, Repeat: days })
+                  }
+                />
               </div>
             </section>
             <section>
               <h4>From</h4>
-              <DateRangePicker />
+              <DateRangePicker
+                selectedRange={(date: string) =>
+                  setDetails({ ...details, From: date })
+                }
+              />
             </section>
             <section className="flex justify-between">
               <div className="grid grid-cols-4 gap-2 w-fit">
@@ -268,7 +178,7 @@ function PeriodAdder({ popUpWindow }: popUpState) {
                   />
                 </label>
               </div>
-              <div>
+              <div onClick={addPeriod}>
                 <ButtonPrimary
                   title="Add Period"
                   svg={

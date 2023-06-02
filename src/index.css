@@ -19,7 +19,8 @@
 
 button,
 a,
-input {
+input,
+label {
   transition: 300ms;
 }
 
@@ -41,6 +42,7 @@ input {
 }
 
 *:focus-visible {
+  border: white;
   box-shadow: 0 2px 16px #5364ff88;
 }
 

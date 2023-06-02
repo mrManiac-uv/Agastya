@@ -3,7 +3,7 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-function DateRangePicker() {
+function DateRangePicker({ selectedRange }: any) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dateRange, setDateRange] = useState([
     {
@@ -15,6 +15,11 @@ function DateRangePicker() {
 
   const handleDateRangeChange = (ranges: any) => {
     setDateRange([ranges.selection]);
+    const date: string =
+      dateRange[0].startDate.toDateString() +
+      "-" +
+      dateRange[0].endDate.toDateString();
+    selectedRange(date);
   };
 
   const handleButtonClick = () => {
@@ -25,7 +30,11 @@ function DateRangePicker() {
     <div>
       <div
         onClick={handleButtonClick}
-        className="flex gap-2 w-full mt-2 py-4 px-6 rounded-xl border border-grey cursor-pointer"
+        className={`flex gap-2 w-full mt-2 py-4 px-6 rounded-xl border cursor-pointer ${
+          showDatePicker
+            ? "border-white shadow-xl shadow-primary/30"
+            : "border-grey"
+        }`}
       >
         <svg
           width="24"
@@ -107,8 +116,9 @@ function DateRangePicker() {
             stroke-linejoin="round"
           />
         </svg>
-        {dateRange[0].startDate.toDateString()} -
-        {dateRange[0].endDate.toDateString()}
+        {dateRange[0].startDate.toDateString() +
+          "-" +
+          dateRange[0].endDate.toDateString()}
       </div>
 
       {showDatePicker && (

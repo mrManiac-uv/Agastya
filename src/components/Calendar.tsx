@@ -1,15 +1,9 @@
 import { useState } from "react";
 import ButtonPrimary from "../components/ButtonPrimary";
 
-interface buttonState {
-  addPeriod: (data: boolean) => void;
-}
-function Calendar({ addPeriod }: buttonState) {
-  const [isClicked, setisClicked] = useState(false);
+function Calendar({ addPeriod }: any) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const selectedDay = selectedDate.getDay() - 1;
-
-  addPeriod(isClicked);
 
   const handlePrevWeek = () => {
     setSelectedDate((prevDate) => {
@@ -197,7 +191,7 @@ function Calendar({ addPeriod }: buttonState) {
             </button>
           </div>
         </section>
-        <div onClick={() => setisClicked(true)}>
+        <div onClick={() => addPeriod()}>
           <ButtonPrimary
             title="Add Period"
             svg={
@@ -233,7 +227,7 @@ function Calendar({ addPeriod }: buttonState) {
       <section className="grid place-content-center gap-6 fixed w-full h-[60vh] bottom-0">
         <h3 className="capitalize">start planning your week;)</h3>
         <section className="grid justify-center">
-          <div onClick={() => setisClicked(true)}>
+          <div onClick={() => addPeriod()}>
             <ButtonPrimary
               title="Add Period"
               svg={

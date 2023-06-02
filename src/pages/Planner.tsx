@@ -5,16 +5,26 @@ import { useState } from "react";
 
 function Planner() {
   const [addPeriod, setaddPeriod] = useState(false);
-  const buttonState = (isClicked: boolean) => {
-    setaddPeriod(isClicked);
+  const open = () => {
+    setaddPeriod(true);
+  };
+  const close = () => {
+    setaddPeriod(false);
+  };
+
+  const handleData = (data: object) => {
+    console.log(data);
   };
 
   return (
     <>
       <Tabs />
 
-      <Calendar addPeriod={buttonState} />
-      {addPeriod && <PeriodAdder popUpWindow={buttonState} />}
+      <Calendar addPeriod={open} />
+
+      {addPeriod && (
+        <PeriodAdder popUpWindow={close} periodDetails={handleData} />
+      )}
     </>
   );
 }
